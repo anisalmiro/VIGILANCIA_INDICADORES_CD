@@ -4,8 +4,8 @@ username:
 account: infoinsupdatedashboard
 server: shinyapps.io
 hostUrl: https://api.shinyapps.io/v1
-appId: 9111354
-bundleId: 7220028
+appId: 9222075
+bundleId: 7320561
 url: https://infoinsupdatedashboard.shinyapps.io/Covid19_Dashboard/
-when: 1684160339.55375
-lastSyncTime: 1684160339.55375
+when: 1686223114.14599
+lastSyncTime: 1686223114.14602

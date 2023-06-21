@@ -68,7 +68,7 @@ library(rdrop2)
 
 #library(rsconnect)
 
-#rsconnect::deployApp(appDir = 'C:/Users/INS/OneDrive - Instituto Nacional de Saúde/Documents/Github/DASHBOARD_CONCEPTY',
+#rsconnect::deployApp(appDir = 'C:/Users/anisi/Documents/GitHub/COVID19_DASHBOARD',
 #                    appName = 'Covid19_Dashboard',
 #                   account = 'infoinsupdatedashboard' )
 
