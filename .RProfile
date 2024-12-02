@@ -1,4 +1,4 @@
-cli::cli_alert_success('Dashboard INS')
+#cli::cli_alert_success('Dashboard INS')
 
 #
 # This is a Shiny web application. You can run the application by clicking
@@ -81,19 +81,19 @@ library(sendmailR)
 library(shinyAce)
 library(leaflet)
 library(sf)
-library(rgdal)
+#library(rgdal)
 library(readxl)
 library(xts)
 library(stringr)
 library(htmltools)
-library(rdrop2)
+#library(rdrop2)
 library(data.table)
 library(DiagrammeR)
 library(excelR)
 library(htmlwidgets)
 library(htmlTable)
 
-library(maptools)
+#library(maptools)
 library(mapview)
 
 library(formattable)
@@ -152,24 +152,20 @@ library(shinyAce)
 library(leaflet)
 library(sf)
 library(magick)
-library(rgdal)
 library(readxl)
 library(xts)
 library(stringr)
 library(htmltools)
-library(rdrop2)
 library(data.table)
 library(DiagrammeR)
 library(excelR)
 library(htmlwidgets)
 library(htmlTable)
 
-library(maptools)
-library(mapview)
-
 library(formattable)
 library(httr)
 library(sparkline)
+
 
 library(readr)
 library(shinythemes)
@@ -179,7 +175,8 @@ library(stringi)
 library(enc)
 library(rpivotTable)
 library(plyr)
-source('.RProfile')
+library(rio)
+
 
 
 libraries <- c(
@@ -239,20 +236,20 @@ dir_limpos <- file.path(dir_data, "Analises")
 dir_dashboard <- file.path(dir_R, "DB_Dashboard")
 
 cli::cli_alert_info("Carregando Bases do Dshboard")
-bdgeral <- file.path(dir_dashboard, "Base_Geral.rds")
-bd3m <- file.path(dir_dashboard, "Base_3_meses.rds")
-bd30d <- file.path(dir_dashboard, "Base_30_dias.rds")
-bd_diar <- file.path(dir_dashboard, "Base_diaria.rds")
-bd_pos <- file.path(dir_dashboard, "BD_Positivos_diaria.rds")
+#bdgeral <- file.path(dir_dashboard, "Base_Geral.rds")
+#bd3m <- file.path(dir_dashboard, "Base_3_meses.rds")
+#bd30d <- file.path(dir_dashboard, "Base_30_dias.rds")
+#bd_diar <- file.path(dir_dashboard, "Base_diaria.rds")
+#bd_pos <- file.path(dir_dashboard, "BD_Positivos_diaria.rds")
 
 
 
 cli::cli_alert_info("Lendo Baseses de dados para Dashboard")
-r_Base<- rio::import(bdgeral)
-BD_3_meses <- rio::import(bd3m)
-BD_15_dias <- rio::import(bd30d)
-BD_diaria <- rio::import(bd_diar)
-BD_positivos <- rio::import(bd_pos)
+#r_Base<- rio::import(bdgeral)
+#BD_3_meses <- rio::import(bd3m)
+#BD_15_dias <- rio::import(bd30d)
+#BD_diaria <- rio::import(bd_diar)
+#BD_positivos <- rio::import(bd_pos)
 # Fim da definicao de Directorios
 #Fim de leitura dos directorios do dashboard
 

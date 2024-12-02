@@ -64,7 +64,7 @@ library(shinymanager)
 library(shinydashboard)
 library(shinyWidgets)
 library(highcharter)
-library(rdrop2)
+#library(rdrop2)
 
 #library(rsconnect)
 
@@ -100,7 +100,7 @@ idleTimer();"
 #metodo de credenciais
 
 credentials <- data.frame(
-  user = c("anisio", "pirolita"),
+  user = c("anisio", "Julio"),
   password = c("123", "321"),
   admin = c(T,F),
   # comment = c("alsace", "auvergne", "bretagne"), %>% 
@@ -122,7 +122,7 @@ source(".RProfile", encoding = "UTF-8")
 #Metodos auxiliares
 
 ultima_data <- max(as.Date(BD_3_meses$Data_reporte))
-PAGE_TITLE <- "INS Dashboard "
+PAGE_TITLE <- "INS Vigilancia "
 
 ui <- secure_app( head_auth = tags$script(inactivity),
                   
