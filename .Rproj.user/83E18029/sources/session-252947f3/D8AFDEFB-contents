@@ -1,0 +1,214 @@
+---
+title: "Analisys"
+author: "Anisio"
+date: "2024-01-17"
+output: html_document
+runtime: shiny
+---
+
+
+#Leitura da base
+```{r setup, include=FALSE}
+
+source(".RProfile", encoding = "UTF-8")
+
+
+cli::cli_alert_success("Carregamento de Bases de dados")
+#DB_MASTER
+#infile <- file.path(dir_data, "TESTADOSCOVID.csv")
+#inf_update <- file.path(dir_data, "TABELA1.csv")
+
+#Exportando bases para base ao dashboard
+#export_BD_Geral <- file.path(dir_dashboard, "Base_Geral.rds")
+#export_BD_3_meses <- file.path(dir_dashboard, "Base_3_meses.rds")
+#export_BD_30_dias <- file.path(dir_dashboard, "Base_30_dias.rds")
+#export_diarios <- file.path(dir_dashboard, "Base_diaria.rds")
+
+
+#base_dash<-rio::import(inf_update,Encoding="UTF-8")
+library(janitor)
+
+
+infile <- file.path(dir_data, "Matriz de Partilha IDS.xlsx")
+r <- import(infile)
+
+bc<- r %>% remove_empty(which = c("rows", "cols"), cutoff = 1, quiet = TRUE)
+r %>% mutate(across(is.character,~na_if(trimws(.),""))) %>%
+   remove_empty("rows")
+
+
+
+
+dim(r)
+view(r)
+str(bc)
+
+
+r <- rio::import(infile, encoding = "UTF-8")
+names(r)[10] <- "`DISTRITO...10`"
+
+
+r_Base <- r %>%
+  select (
+          COD = "COD",
+          idade = "IDADE (ANOS)",
+          sexo = "SEXO",
+          Nacionalidade = NACIONALIDADE,
+          Profisao=PROFISSÃO,
+          Sintomas = SINTOMAS,
+          Provincia = PROVINCIA,
+          Distrito = "`DISTRITO...10`",
+          Us_colheita = "UNIDADE SANITARIA DE NOTIFICACAO",
+          Lab_testagem = "LABORATÓRIO DE TESTAGEM",
+          tipo_laboratorio = "TIPO_LABORATORIO",
+          Motivo_testagem =  "MOTIVO DE TESTAGEM",
+          Data_reporte = "data_reporte",
+          Data_colheita = "DATA DE COLHEITA",
+          #Data_validacao = "DATA DE VALIDAÇÃO",
+          # Data_analise = "DATA DE ANALISE",
+          # Data_registro = "DATA DE REGISTO NO LAB"   
+          #data reporte?
+          resultado_testagem = "RESULTADO1c",
+          tipo_teste = TIPO_DE_TESTE
+          
+  ) %>% mutate(Data_reporte= lubridate::ymd(Data_reporte))
+
+
+
+
+
+## Default S3 method:
+
+
+```
+
+
+#Correcao da Base
+```{r setup, include=FALSE}
+
+#test<-r_Base %>%distinct(Provincia) %>% group_by(Provincia) %>% dplyr::summarise(resultado_testagem=n())
+
+cli::cli_alert_success("Corrigindo Variaveis Resultado")
+r_Base$resultado_testagem <- plyr::revalue(r_Base$resultado_testagem, c(
+  "2_Positivo"="Positivo",
+  "1_Negativo"="Negativo"
+)) 
+
+r_Base$Provincia <- plyr::revalue(r_Base$Provincia, c(
+  "MAPUTO PROVINCIA"="Maputo Provincia"
+)) 
+
+r_Base$tipo_teste <- plyr::revalue(r_Base$tipo_teste, c(
+  "RT-PCR"="PCR",
+  "Teste Rapido Antigeno"="TDR"
+))
+
+r_Base$sexo <- plyr::revalue(r_Base$sexo, c(
+  "I"="Sem imformacao",
+  "M"="Sem imformacao",
+  "M."="Sem imformacao",
+  "Nampula"="Sem imformacao",
+  "Beira"="Sem imformacao",
+  "SI"="Sem imformacao",
+  "f"="F",
+  "U"="Sem imformacao",
+  "m"="M",
+  "Cidade de Maputo"="Sem imformacao"
+))
+
+tt<-r_Base %>% distinct(sexo)
+
+#Filtrando ultima data da base
+ultima_data <- max(as.Date(r_Base$Data_reporte))
+
+#voltando tres meses na data do reporte diario
+data_aux_3_meses<-as.Date(ultima_data - dmonths(3))
+#Convertendo para melhor formato
+class(data_aux_3_meses)
+
+
+prim_dia_tres_meses<-as.Date(data_aux_3_meses,format("%d/%m/%Y"))
+#print(prim_dia_tres_meses)
+
+#bade dos tres meses
+cli::cli_alert_info("BD dos 3 meses de Analise")
+Base_Tres_meses<- r_Base %>% dplyr::filter(r_Base$Data_reporte >= prim_dia_tres_meses) 
+
+
+#fazendo a Tabela para dashboard de 15 dias
+testados_trinta_dias<-r_Base$Data_reporte - ddays(30)
+
+#bade dos tres meses
+cli::cli_alert_info("BD dos 30 dias")
+Base_trinta_dias<- r_Base %>% dplyr::filter(r_Base$Data_reporte >= testados_trinta_dias) 
+
+
+#bade dos tres meses
+cli::cli_alert_info("BD dos positivoa")
+BD_diarios <-r_Base %>% dplyr::filter(r_Base$Data_reporte == ultima_data)
+BD_diarios_positivos <- r_Base %>% dplyr::filter(r_Base$Data_reporte == ultima_data & r_Base$resultado_testagem == "Positivo")
+
+
+```
+
+
+
+
+#Exportar
+```{r setup, include=FALSE}
+
+
+
+cli::cli_alert_success("Exportando Bases de Dados para DashBoard")
+#Exportando Bases de dados para DashBoard
+cli::cli_alert_success("Exportando Bases Geral")
+rio::export(r_Base, export_BD_Geral)
+
+cli::cli_alert_success("Exportando Bases de Tres meses")
+rio::export(Base_Tres_meses,export_BD_3_meses)
+
+cli::cli_alert_success("Exportando Bases de Dados Diaria")
+rio::export(BD_diarios,export_diarios)
+
+
+cli::cli_alert_success("Exportando Bases de trinta dias")
+rio::export(Base_trinta_dias,export_BD_30_dias)
+
+cli::cli_alert_success("Exportando Bases de Dados de positivos")
+rio::export(BD_diarios_positivos,export_BD_Positivos_diaria)
+
+
+cli::cli_alert_success("Exportando Bases de consulta do directodio de analises")
+writexl::write_xlsx(BD_diarios_positivos, file.path(dir_limpos, "BD_POSITIVOS.csv"))
+writexl::write_xlsx(BD_diarios, file.path(dir_limpos, "BD_DIARIA.csv"))
+```
+
+
+
+
+```{r setup, include=FALSE}
+#Leitura de todas bibliotecs
+source(".RProfile", encoding = "UTF-8")
+
+#2
+#Ler Base de dados 
+#source(file.path(dir_R, "ler_BD.R"), encoding = "UTF-8")
+
+
+#3
+#corigindo variaveis e base de dados
+#source(file.path(dir_R, "coorecao_BD.R"), encoding = "UTF-8")
+
+
+#4
+#Criando indicadores para Dashboard
+#source(file.path(dir_R, "create_indicator.R"), encoding = "UTF-8")
+
+
+#Coorecao de Variaveis
+#Limpando Valores da base de dados
+#Renomeando Resultados e Filtrando falores Null
+#source(file.path(dir_R, "export_DB_Dashboard.R"), encoding = "UTF-8")
+
+
+```

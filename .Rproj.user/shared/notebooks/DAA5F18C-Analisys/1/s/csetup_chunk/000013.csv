@@ -1,0 +1,12 @@
+"0","source("".RProfile"", encoding = ""UTF-8"")
+"
+"2","[36mi[39m Se tiver erros de Leitura de Bibliotecas, Instale-os ou faca um restart do ser R
+"
+"2","[32mv[39m Iniciando Dashboar - carregamento de directorios e BD
+"
+"2","[36mi[39m Carregando Bases do Dshboard
+"
+"2","[36mi[39m Lendo Baseses de dados para Dashboard
+"
+"2","Error: No such file: R/DB_Dashboard/Base_Geral.rds
+"

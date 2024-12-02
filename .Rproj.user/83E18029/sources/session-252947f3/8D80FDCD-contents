@@ -1,0 +1,256 @@
+#cli::cli_alert_success('Dashboard INS')
+
+#
+# This is a Shiny web application. You can run the application by clicking
+# the 'Run App' button above.
+#
+# Find out more about building applications with Shiny here:
+#
+#    http://shiny.rstudio.com/
+# Author: Anisio Bule
+
+
+#Definir Regiao
+Sys.setlocale("LC_ALL","Portuguese")
+options("scipen"=100, digits = 2)
+#Clear existing data and graphics
+#rm(list=ls())
+#graphics.off()
+#Load Hmisc library
+
+
+library('dplyr')
+library("shiny")
+library("rlang")
+library("ggplot2")
+library(DT)
+library(graphics)
+library(tidyr)
+library(ggplot2)
+library("lubridate")
+library(readxl)
+library(stringr)
+library(htmltools)
+
+library(htmlwidgets)
+library(htmlTable)
+library(reactable)
+library(htmlwidgets)
+library(htmlwidgets)
+library(shinythemes)
+library(shinydashboard)
+library(stringi)
+library(rpivotTable)
+#library(plyr)
+
+library("plotly")
+library('dplyr')
+library("shiny")
+library("rlang")
+library("ggplot2")
+library("shinyWidgets")
+library("shinydashboard")
+library(DT)
+library(graphics)
+library("network")
+library("sna")
+library("ggraph")
+library(visNetwork)
+library("threejs")
+library("networkD3")
+library("ndtv")
+library(tidyr)
+library(shinydashboardPlus)
+library(ggiraph)
+library(ggplot2)
+library(tidyverse)
+library(timetk)
+library(kableExtra)
+library(highcharter)
+library(igraph)
+library("aweek")
+library("lubridate")
+library(readxl)
+library(png)
+library(shinyjs)
+library(shinymanager)
+library(waffle)
+library(hrbrthemes)
+library(extrafont)
+library(sendmailR)
+library(shinyAce)
+library(leaflet)
+library(sf)
+#library(rgdal)
+library(readxl)
+library(xts)
+library(stringr)
+library(htmltools)
+#library(rdrop2)
+library(data.table)
+library(DiagrammeR)
+library(excelR)
+library(htmlwidgets)
+library(htmlTable)
+
+#library(maptools)
+library(mapview)
+
+library(formattable)
+library(httr)
+library(sparkline)
+
+library(reactable)
+library(naniar)
+library(htmlwidgets)
+library(webshot)
+
+
+
+library(shiny)
+library(shinyFiles)
+library(fs)
+library(shinyAce)
+library(writexl)
+library(htmlwidgets)
+library(webshot)
+library("plotly")
+library('dplyr')
+library("shiny")
+library("rlang")
+library("ggplot2")
+library("shinyWidgets")
+library("shinydashboard")
+library(DT)
+library(graphics)
+library("network")
+library("sna")
+library("ggraph")
+library(visNetwork)
+library("threejs")
+library("networkD3")
+library("ndtv")
+library(tidyr)
+library(shinydashboardPlus)
+library(ggiraph)
+library(ggplot2)
+library(tidyverse)
+library(timetk)
+library(kableExtra)
+library(highcharter)
+library(igraph)
+library("aweek")
+library("lubridate")
+library(readxl)
+library(png)
+library(shinyjs)
+library(shinymanager)
+library(waffle)
+library(hrbrthemes)
+library(extrafont)
+library(shinyAce)
+library(leaflet)
+library(sf)
+library(magick)
+library(readxl)
+library(xts)
+library(stringr)
+library(htmltools)
+library(data.table)
+library(DiagrammeR)
+library(excelR)
+library(htmlwidgets)
+library(htmlTable)
+
+library(formattable)
+library(httr)
+library(sparkline)
+
+
+library(readr)
+library(shinythemes)
+library(shinydashboard)
+library(formattable)
+library(stringi)
+library(enc)
+library(rpivotTable)
+library(plyr)
+library(rio)
+
+
+
+libraries <- c(
+  
+  
+  #carpintery
+  "glue", "janitor",  "scales",
+  "forcats", "lubridate",
+  
+  #maps
+  "sf",
+  
+  
+  #tidyverse: 
+  "tidyr","tidyverse", "stringr", "dplyr",
+  
+  #outras
+  "rio", "cli", "zoo","esquisse",
+  
+  #plot
+  "cowplot", "ggplot2","plotly" ,
+  
+  
+  
+  #connection
+  "rsconnect"
+  
+  
+)
+
+
+
+#load packages ----------------------------------------------------------------
+cli::cli_alert_info("Se tiver erros de Leitura de Bibliotecas, Instale-os ou faca um restart do ser R")
+
+#Definindo Directorios de trabalho
+
+if(Sys.info()["sysname"] == "Windows"){
+  
+  dash_path <- dirname(getwd())
+  
+  
+} else {
+  
+  project_path <- "~/DASHBOARD_CONCEPTY"
+ # dash_path <- file.path(project_path)
+  #project_path <- dirname(dash_path)
+  
+}
+
+
+cli::cli_alert_success("Iniciando Dashboar - carregamento de directorios e BD")
+dir_data <- "data"
+dir_R <- "R"
+dir_www <- "www"
+dir_limpos <- file.path(dir_data, "Analises")
+dir_dashboard <- file.path(dir_R, "DB_Dashboard")
+
+cli::cli_alert_info("Carregando Bases do Dshboard")
+#bdgeral <- file.path(dir_dashboard, "Base_Geral.rds")
+#bd3m <- file.path(dir_dashboard, "Base_3_meses.rds")
+#bd30d <- file.path(dir_dashboard, "Base_30_dias.rds")
+#bd_diar <- file.path(dir_dashboard, "Base_diaria.rds")
+#bd_pos <- file.path(dir_dashboard, "BD_Positivos_diaria.rds")
+
+
+
+cli::cli_alert_info("Lendo Baseses de dados para Dashboard")
+#r_Base<- rio::import(bdgeral)
+#BD_3_meses <- rio::import(bd3m)
+#BD_15_dias <- rio::import(bd30d)
+#BD_diaria <- rio::import(bd_diar)
+#BD_positivos <- rio::import(bd_pos)
+# Fim da definicao de Directorios
+#Fim de leitura dos directorios do dashboard
+
+#Funcoes de aranjos
